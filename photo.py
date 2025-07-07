@@ -7,10 +7,17 @@ STATIC_FOLDER = os.path.join(os.path.dirname(__file__), 'static')
 START_SEQ = b'\xDE\xAD\xBE\xEF'
 END_SEQ = b'\xFE\xED\xFA\xCE'
 
+abort_flag = False
+
 def receive_photo(ser):
+    global abort_flag
+    abort_flag = False  # Reset flag at start
     buffer = bytearray()
 
     while True:
+        if abort_flag:
+            print("📛 Capture aborted by user.")
+            return None
         if ser.in_waiting:
             data = ser.read(ser.in_waiting)
             buffer.extend(data)
@@ -42,4 +49,9 @@ def receive_photo(ser):
                 with open(full_path, "wb") as f:
                     f.write(frame)
                 print(f"[+] Saved {filename}")
-                return full_path
+                return filename
+
+
+def abort_receive():
+    global abort_flag
+    abort_flag = True

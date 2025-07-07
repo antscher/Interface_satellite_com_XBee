@@ -10,49 +10,20 @@
     <h1>ESP32 Camera Viewer</h1>
 
     <form id="connect-form">
-    <input type="text" id="port" name="port" placeholder="e.g., COM15" required>
-    <button type="submit">Connect</button>
+      <input type="text" id="port" name="port" placeholder="e.g., COM15" required>
+      <button type="submit">Connect</button>
     </form>
 
-    <button id="capture-button" disabled>📸 Take Picture</button>
-
-    <div id="image-container" style="margin-top:20px;">
-    <img id="photo" src="" style="max-width:400px; display:none;">
+    <div class="buttons">
+      <button id="capture-button" disabled>📸 Take Picture</button>
+      <button id="abort-button" disabled>❌ Abort</button>
     </div>
 
-    <script>
-    document.getElementById('connect-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const port = document.getElementById('port').value;
-
-    fetch('/connect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ port: port })
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert(data.message);
-        if (data.success) {
-        document.getElementById('capture-button').disabled = false;
-        }
-    });
-    });
-
-    document.getElementById('capture-button').addEventListener('click', function () {
-    fetch('/capture')
-        .then(res => res.json())
-        .then(data => {
-        if (data.success) {
-            const photo = document.getElementById('photo');
-            photo.src = '/static/' + data.filename + '?t=' + new Date().getTime();
-            photo.style.display = 'block';
-        } else {
-            alert(data.message);
-        }
-        });
-    });
-    </script>
+    <div id="image-container" style="margin-top:20px;">
+      <img id="photo" src="" style="max-width:400px; display:none;">
+    </div>
   </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

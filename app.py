@@ -12,7 +12,7 @@ from flask import Flask, render_template, request, jsonify
 import serial
 import threading
 import os
-from photo import receive_photo
+from photo import receive_photo,abort_receive
 
 app = Flask(__name__)
 ser = None  # Global serial object
@@ -34,18 +34,24 @@ def connect():
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
 
-@app.route("/capture", methods=["GET"])
+@app.route("/capture")
 def capture():
-    global ser
-    if ser is None or not ser.is_open:
-        return jsonify({"success": False, "message": "Not connected to any port."})
+    if ser:
+        try:
+            ser.write(b'c')
+            filename = receive_photo(ser)
+            if filename:
+                return jsonify(success=True, filename=filename)
+            else:
+                return jsonify(success=False, error="Aborted")
+        except Exception as e:
+            return jsonify(success=False, error=str(e))
+    return jsonify(success=False, error="Not connected")
 
-    try:
-        ser.write(b'c')
-        filename = receive_photo(ser)  # Should return path in static/
-        return jsonify({"success": True, "filename": os.path.basename(filename)})
-    except Exception as e:
-        return jsonify({"success": False, "message": str(e)})
+@app.route("/abort")
+def abort():
+    abort_receive()
+    return jsonify(success=True)
 
 if __name__ == "__main__":
     app.run(debug=True)
