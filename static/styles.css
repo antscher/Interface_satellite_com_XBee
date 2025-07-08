@@ -98,14 +98,26 @@ button:disabled {
     display: none; /* Sera visible une fois une image chargée */
 }
 
-.right-panel ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.right-panel {
+    width: 300px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
 }
 
-.right-panel li {
-    padding: 8px 0;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
+.status-section {
+    margin-bottom: 15px;
+}
+
+.status-section p {
+    margin: 6px 0;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
 }

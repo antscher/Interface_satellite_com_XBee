@@ -53,4 +53,26 @@ abortButton.addEventListener('click', function () {
     });
 });
 
+function updateSensorData() {
+  fetch('/sensor_data')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('temp-value').textContent = data.temperature + " °C";
+      document.getElementById('humidity-value').textContent = data.humidity + " %";
+      document.getElementById('pressure-value').textContent = data.pressure + " hPa";
 
+      document.getElementById('acc-x').textContent = data.acc_x;
+      document.getElementById('acc-y').textContent = data.acc_y;
+      document.getElementById('acc-z').textContent = data.acc_z;
+
+      document.getElementById('gyro-x').textContent = data.gyro_x;
+      document.getElementById('gyro-y').textContent = data.gyro_y;
+      document.getElementById('gyro-z').textContent = data.gyro_z;
+    });
+}
+
+// Appel toutes les secondes
+setInterval(updateSensorData, 1000);
+
+// Optionnel : appel au chargement
+updateSensorData();
