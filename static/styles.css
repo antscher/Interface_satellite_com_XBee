@@ -1,3 +1,4 @@
+/* Main body styling */
 body {
     font-family: "Segoe UI", sans-serif;
     background-color: #f0f0f0;
@@ -5,6 +6,7 @@ body {
     padding: 0;
 }
 
+/* Layout for main content: left (image) and right (sensor/status) panels */
 .main-layout {
     display: flex;
     justify-content: space-between;
@@ -15,29 +17,36 @@ body {
     gap: 60px;
 }
 
+/* Left panel: image display */
 .left-panel {
     flex: 1;
     max-width: 600px;
 }
 
+/* Right panel: sensor/status info */
 .right-panel {
     width: 300px;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
 }
 
+/* Headings */
 h1, h2 {
     margin-top: 0;
 }
 
+/* Row for form elements (port input, buttons) */
 .form-row {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
 
+/* Serial port input styling */
 #port {
     padding: 10px;
     font-size: 16px;
@@ -46,12 +55,14 @@ h1, h2 {
     width: 200px;
 }
 
+/* Row for action buttons */
 .buttons-row {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
 }
 
+/* Button styling */
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -72,6 +83,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* Container for displaying the captured image */
 #image-container {
     border: 2px dashed #aaa;
     width: 400px;
@@ -81,23 +93,26 @@ button:disabled {
     justify-content: center;
     border-radius: 10px;
     background-color: #fff;
-    overflow: hidden; /* Empêche l'image de dépasser */
+    overflow: hidden; /* Prevent image overflow */
     position: relative;
 }
 
+/* Captured photo styling */
 #photo {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Redimensionne tout en gardant les proportions */
-    display: none; /* Devient visible une fois une image chargée */
+    object-fit: contain; /* Keep aspect ratio */
+    display: none; /* Hidden until image is loaded */
 }
 
+/* Placeholder image styling */
 .placeholder-image {
     max-width: 100%;
     max-height: 100%;
-    display: none; /* Sera visible une fois une image chargée */
+    display: none; /* Shown only if no image */
 }
 
+/* Sensor/status section styling */
 .status-section {
     margin-bottom: 15px;
 }
@@ -106,12 +121,14 @@ button:disabled {
     margin: 6px 0;
 }
 
+/* Horizontal rule styling */
 hr {
     border: none;
     border-top: 1px solid #ddd;
     margin: 15px 0;
 }
 
+/* Right column layout for sensor/status */
 .right-column {
     display: flex;
     flex-direction: column;
@@ -119,6 +136,7 @@ hr {
     width: 100%;
 }
 
+/* Right panel (redundant, but ensures style) */
 .right-panel {
     width: 300px;
     background-color: #ffffff;
@@ -129,10 +147,12 @@ hr {
     color: #333;
 }
 
+/* Logo container styling */
 .logo-container {
     margin-top: 10px;
 }
 
+/* Logo image styling */
 .logo-container img {
     max-width: 120px;
     height: auto;
