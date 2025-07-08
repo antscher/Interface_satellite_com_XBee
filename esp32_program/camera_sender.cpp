@@ -2,6 +2,7 @@
 #include "camera_sender.h"
 
 // ==== OV2640 camera configuration ====
+// Pin definitions for camera module
 #define PWDN_GPIO_NUM     -1
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      21
@@ -20,16 +21,19 @@
 #define HREF_GPIO_NUM      23
 #define PCLK_GPIO_NUM      22
 
+// UART2 pins for XBee
 #define RXD2 32
 #define TXD2 33
 
 HardwareSerial XBeeSerial(2);  // UART2 for XBee
 
+// Initialize camera and UART2 (XBee)
 void init_camera_and_uart() {
   delay(1000);
   XBeeSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
   Serial.println("✅ UART2 (XBee) initialized");
 
+  // Camera configuration struct
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer   = LEDC_TIMER_0;
@@ -56,6 +60,7 @@ void init_camera_and_uart() {
   config.jpeg_quality = 5;            // Best quality
   config.fb_count = 1;
 
+  // Initialize camera
   if (esp_camera_init(&config) != ESP_OK) {
     Serial.println("❌ Camera initialization error");
     return;
@@ -64,13 +69,14 @@ void init_camera_and_uart() {
   Serial.println("📷 Camera initialized");
 }
 
+// Capture image and send via UART2 (XBee)
 void take_and_send_picture() {
   Serial.println("📸 Capturing image...");
   // Refresh the buffer
   camera_fb_t *fb = esp_camera_fb_get();
   if (fb) esp_camera_fb_return(fb);
 
-  // take a new image
+  // Take a new image
   fb = esp_camera_fb_get();
 
   if (!fb) {
@@ -81,22 +87,22 @@ void take_and_send_picture() {
 
   Serial.printf("📦 Image: %u bytes\n", fb->len);
 
-  // Start of frame
+  // --- Start of frame marker ---
   XBeeSerial.write(0xDE);
   XBeeSerial.write(0xAD);
   XBeeSerial.write(0xBE);
   XBeeSerial.write(0xEF);
 
-  // Size on 4 bytes (MSB first)
+  // --- Image size (4 bytes, MSB first) ---
   XBeeSerial.write((fb->len >> 24) & 0xFF);
   XBeeSerial.write((fb->len >> 16) & 0xFF);
   XBeeSerial.write((fb->len >> 8) & 0xFF);
   XBeeSerial.write(fb->len & 0xFF);
 
-  // JPEG data
+  // --- JPEG data ---
   XBeeSerial.write(fb->buf, fb->len);
 
-  // End of frame
+  // --- End of frame marker ---
   XBeeSerial.write(0xFE);
   XBeeSerial.write(0xED);
   XBeeSerial.write(0xFA);

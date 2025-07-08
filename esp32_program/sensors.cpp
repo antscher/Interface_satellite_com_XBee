@@ -3,12 +3,14 @@
 #include <Adafruit_BME280.h>
 #include <Adafruit_MPU6050.h>
 
+// === Sensor objects ===
 // BME280 (addr 0x76) 
 Adafruit_BME280 bme;
 
 // MPU6050 (addr 0x68) 
 Adafruit_MPU6050 mpu;
 
+// === Initialization functions ===
 bool sensor_init_bme() {
   return bme.begin(0x76, &Wire);
 }
@@ -17,6 +19,7 @@ bool init_mpu() {
   return mpu.begin(0x68, &Wire);
 }
 
+// === Sensor reading functions ===
 void get_measure_bme(float &temperature, float &pressure, float &humidity) {
   temperature = bme.readTemperature();
   Serial.print("Temp: "); Serial.print(temperature); Serial.println(" °C");
@@ -54,8 +57,9 @@ void get_accel(float &ax, float &ay, float &az) {
   Serial.print("Accel Z: "); Serial.println(az);
 }
 
+// === Transmit all sensor data over UART ===
 void transmit_data(HardwareSerial &serial) {
-  // En-tête
+  // --- Frame header ---
   serial.write(0xA1); serial.write(0xB2); serial.write(0xC3); serial.write(0xD4);
 
   // === BME280 === (ID = 2)
@@ -74,7 +78,7 @@ void transmit_data(HardwareSerial &serial) {
   serial.write((uint8_t *)&gy, sizeof(float));
   serial.write((uint8_t *)&gz, sizeof(float));
 
-  // === Accéléromètre MPU === (ID = 4)
+  // === Accelerometer MPU === (ID = 4)
   float ax, ay, az;
   get_accel(ax, ay, az);
   serial.write(0x00); serial.write(0x00); serial.write(0x00); serial.write(0x04); // ID Accel
@@ -82,6 +86,6 @@ void transmit_data(HardwareSerial &serial) {
   serial.write((uint8_t *)&ay, sizeof(float));
   serial.write((uint8_t *)&az, sizeof(float));
 
-  // Fin de trame
+  // --- Frame end ---
   serial.write(0x1E); serial.write(0x2D); serial.write(0x3C); serial.write(0x4B);
 }

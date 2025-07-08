@@ -8,6 +8,7 @@
 #         |-- index.html
 
 # app.py
+import time
 from flask import Flask, render_template, request, jsonify
 import serial
 import threading
@@ -50,6 +51,7 @@ def capture():
     if ser:
         try:
             reading_paused = True  # pause thread
+            time.sleep(0.5)  # wait for pause to take effect
             ser.write(b'c')
             filename = receive_photo(ser)
             sensors.reading_paused = False  # reprend thread
