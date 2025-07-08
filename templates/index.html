@@ -28,36 +28,43 @@
     </div>
 
     <!-- Partie droite : Infos supplémentaires -->
-    <div class="right-column">
-      <div class="right-panel">
-        <h2>Status</h2>
-
+    <div class="status-wrapper">
+      <!-- Panneau gauche -->
+      <div class="status-panel left-panel">
+        <h2>Groundstation</h2>
         <div class="status-section">
-          <p><strong>Temperature :</strong> <span id="temp-value">-- °C</span></p>
-          <p><strong>Humidity :</strong> <span id="humidity-value">-- %</span></p>
-          <p><strong>Pressure :</strong> <span id="pressure-value">-- hPa</span></p>
-        </div>
-
-        <hr>
-
-        <div class="status-section">
-          <p><strong>Acceleration x :</strong> <span id="acc-x">--</span></p>
-          <p><strong>Acceleration y :</strong> <span id="acc-y">--</span></p>
-          <p><strong>Acceleration z :</strong> <span id="acc-z">--</span></p>
-        </div>
-
-        <hr>
-
-        <div class="status-section">
-          <p><strong>Gyro x :</strong> <span id="gyro-x">--</span></p>
-          <p><strong>Gyro y :</strong> <span id="gyro-y">--</span></p>
-          <p><strong>Gyro z :</strong> <span id="gyro-z">--</span></p>
+          <p><strong>Latitude :</strong> <span id="lat">48.5233 N</span></p>
+          <p><strong>Longitude :</strong> <span id="long">7.7369 E</span></p>
+          <p><strong>Altitude :</strong> <span id="alt">143 m</span></p>
         </div>
       </div>
 
-      <!-- Logo en dessous, centré -->
-      <div class="logo-container">
-        <img src="{{ url_for('static', filename='isu_logo.png') }}" alt="ISU Logo">
+      <!-- Panneau droit + logo -->
+      <div class="right-column">
+        <div class="status-panel right-panel">
+          <h2>Status</h2>
+          <div class="status-section">
+            <p><strong>Temperature :</strong> <span id="temp-value">-- °C</span></p>
+            <p><strong>Humidity :</strong> <span id="humidity-value">-- %</span></p>
+            <p><strong>Pressure :</strong> <span id="pressure-value">-- hPa</span></p>
+          </div>
+          <hr>
+          <div class="status-section">
+            <p><strong>Acceleration x :</strong> <span id="acc-x">--</span></p>
+            <p><strong>Acceleration y :</strong> <span id="acc-y">--</span></p>
+            <p><strong>Acceleration z :</strong> <span id="acc-z">--</span></p>
+          </div>
+          <hr>
+          <div class="status-section">
+            <p><strong>Gyro x :</strong> <span id="gyro-x">--</span></p>
+            <p><strong>Gyro y :</strong> <span id="gyro-y">--</span></p>
+            <p><strong>Gyro z :</strong> <span id="gyro-z">--</span></p>
+          </div>
+        </div>
+
+        <div class="logo-container">
+          <img src="{{ url_for('static', filename='isu_logo.png') }}" alt="ISU Logo">
+        </div>
       </div>
     </div>
   </div>

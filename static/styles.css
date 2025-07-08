@@ -128,28 +128,11 @@ hr {
     margin: 15px 0;
 }
 
-/* Right column layout for sensor/status */
-.right-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-/* Right panel (redundant, but ensures style) */
-.right-panel {
-    width: 300px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    color: #333;
-}
-
 /* Logo container styling */
 .logo-container {
     margin-top: 10px;
+    display: flex;             
+    justify-content: center;    
 }
 
 /* Logo image styling */
@@ -157,4 +140,23 @@ hr {
     max-width: 120px;
     height: auto;
     opacity: 0.9;
+}
+
+.status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.status-panel {
+    width: 300px;
+    box-sizing: border-box; /* ✅ très important pour respecter width exacte */
+    background-color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
 }
