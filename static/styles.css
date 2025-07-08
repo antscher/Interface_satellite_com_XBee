@@ -98,16 +98,6 @@ button:disabled {
     display: none; /* Sera visible une fois une image chargée */
 }
 
-.right-panel {
-    width: 300px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    color: #333;
-}
-
 .status-section {
     margin-bottom: 15px;
 }
@@ -120,4 +110,31 @@ hr {
     border: none;
     border-top: 1px solid #ddd;
     margin: 15px 0;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.right-panel {
+    width: 300px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+}
+
+.logo-container {
+    margin-top: 10px;
+}
+
+.logo-container img {
+    max-width: 120px;
+    height: auto;
+    opacity: 0.9;
 }
