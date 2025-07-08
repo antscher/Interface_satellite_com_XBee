@@ -2,26 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ESP32 Camera Viewer</title>
+  <title>Mission Control - ESP32</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>ESP32 Camera Viewer</h1>
+  <div class="main-layout">
+    
+    <!-- Partie gauche : Contrôle et image -->
+    <div class="left-panel">
+      <h1>🛰️ Mission Control</h1>
 
-    <form id="connect-form">
-      <input type="text" id="port" name="port" placeholder="e.g., COM15" required>
-      <button type="submit">Connect</button>
-    </form>
+      <form id="connect-form" class="form-row">
+        <input type="text" id="port" name="port" placeholder="e.g., COM15" required>
+        <button type="submit">Connect</button>
+      </form>
 
-    <div class="buttons">
-      <button id="capture-button" disabled>📸 Take Picture</button>
-      <button id="abort-button" disabled>❌ Abort</button>
+      <div class="buttons-row">
+        <button id="capture-button" disabled>📸 Take Picture</button>
+        <button id="abort-button" disabled>❌ Abort</button>
+      </div>
+
+      <div id="image-container">
+        <img id="photo" src="" alt="Captured" class="placeholder-image">
+      </div>
     </div>
 
-    <div id="image-container" style="margin-top:20px;">
-      <img id="photo" src="" style="max-width:400px; display:none;">
+    <!-- Partie droite : Infos supplémentaires -->
+    <div class="right-panel">
+      <h2>Status</h2>
+      <ul id="status-info">
+        <li>Temperature: -- °C</li>
+        <li>Pressure: -- %</li>
+        <li>Humidity: -- hPa</li>
+        <li>Signal: -- dBm</li>
+      </ul>
     </div>
+
   </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>

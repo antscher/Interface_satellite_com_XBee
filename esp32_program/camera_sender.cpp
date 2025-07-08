@@ -26,7 +26,6 @@
 HardwareSerial XBeeSerial(2);  // UART2 for XBee
 
 void init_camera_and_uart() {
-  Serial.begin(115200);
   delay(1000);
   XBeeSerial.begin(115200, SERIAL_8N1, RXD2, TXD2);
   Serial.println("✅ UART2 (XBee) initialized");
