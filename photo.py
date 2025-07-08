@@ -16,7 +16,7 @@ def receive_photo(ser):
 
     while True:
         if abort_flag:
-            print("📛 Capture aborted by user.")
+            print("Capture aborted by user.")
             return None
         if ser.in_waiting:
             data = ser.read(ser.in_waiting)

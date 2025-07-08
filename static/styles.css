@@ -23,17 +23,6 @@ body {
     max-width: 600px;
 }
 
-/* Right panel: sensor/status info */
-.right-panel {
-    width: 300px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 16px;
-    color: #333;
-}
-
 /* Headings */
 h1, h2 {
     margin-top: 0;

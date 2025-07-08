@@ -2,6 +2,7 @@ const connectForm = document.getElementById('connect-form');
 const captureButton = document.getElementById('capture-button');
 const abortButton = document.getElementById('abort-button');
 const photo = document.getElementById('photo');
+const unlinkButton = document.getElementById('unlink-button');
 
 connectForm.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -17,6 +18,8 @@ connectForm.addEventListener('submit', function (e) {
       alert(data.message || (data.success ? 'Connected!' : 'Failed to connect'));
       if (data.success) {
         captureButton.disabled = false;
+        unlinkButton.disabled = false;
+        document.getElementById('port').disabled = true;
       }
     });
 });
@@ -50,6 +53,23 @@ abortButton.addEventListener('click', function () {
       alert("Capture aborted.");
       captureButton.disabled = false;
       abortButton.disabled = true;
+    });
+});
+
+unlinkButton.addEventListener('click', function () {
+  fetch('/disconnect', {
+    method: 'POST'
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || (data.success ? 'Disconnected!' : 'Failed to disconnect'));
+      if (data.success) {
+        captureButton.disabled = true;
+        unlinkButton.disabled = true;
+        abortButton.disabled = true;
+        document.getElementById('port').disabled = false;
+        photo.style.display = 'none';
+      }
     });
 });
 

@@ -92,6 +92,24 @@ def sensor_data():
     # print("Sending latest sensors:", sensors.latest_sensors)
     return jsonify(sensors.latest_sensors)
 
+@app.route("/disconnect", methods=["POST"])
+def disconnect():
+    """
+    Disconnect from the serial port (XBee).
+    Stops the background sensor thread and closes the port.
+    """
+    global ser
+    try:
+        if ser and ser.is_open:
+            sensors.running = False
+            if sensors.serial_thread_obj:
+                sensors.serial_thread_obj.join()
+            ser.close()
+            ser = None
+        return jsonify({"success": True, "message": "Disconnected"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)})
+
 if __name__ == "__main__":
     # Start Flask development server
     app.run(debug=True)

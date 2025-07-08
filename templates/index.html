@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mission Control - ESP32</title>
+  <title>Mission Operations Software - ESP32</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -10,11 +10,12 @@
     
     <!-- Partie gauche : Contrôle et image -->
     <div class="left-panel">
-      <h1>🛰️ Mission Control</h1>
+      <h1>🛰️ Mission Operations Software</h1>
 
       <form id="connect-form" class="form-row">
         <input type="text" id="port" name="port" placeholder="e.g., COM15" required>
         <button type="submit">Connect</button>
+        <button type="button" id="unlink-button" disabled>Unlink</button>
       </form>
 
       <div class="buttons-row">
@@ -31,7 +32,7 @@
     <div class="status-wrapper">
       <!-- Panneau gauche -->
       <div class="status-panel left-panel">
-        <h2>Groundstation</h2>
+        <h2>ISU groundstation</h2>
         <div class="status-section">
           <p><strong>Latitude :</strong> <span id="lat">48.5233 N</span></p>
           <p><strong>Longitude :</strong> <span id="long">7.7369 E</span></p>
@@ -42,7 +43,7 @@
       <!-- Panneau droit + logo -->
       <div class="right-column">
         <div class="status-panel right-panel">
-          <h2>Status</h2>
+          <h2>Satellite status</h2>
           <div class="status-section">
             <p><strong>Temperature :</strong> <span id="temp-value">-- °C</span></p>
             <p><strong>Humidity :</strong> <span id="humidity-value">-- %</span></p>
