@@ -178,7 +178,7 @@ pip install flask pyserial
 
 ## Image of the interface
 
-![Interface Example](static/interface_example.png)
+![Interface Example](templates/interface_example.png)
 
 ## 📚 References
 
