@@ -1,11 +1,14 @@
 import time
 import struct
 
+
 # Thread and state variables for sensor reading
 serial_thread_obj = None
 running = False
 reading_paused = False
 latest_sensors = {}
+
+
 
 # Frame delimiters for sensor data
 HEADER = bytes([0xA1, 0xB2, 0xC3, 0xD4])

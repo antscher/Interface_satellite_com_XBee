@@ -9,6 +9,13 @@ from photo import receive_photo, abort_receive
 import sensors
 import logging
 
+# Command bytes for taking a picture (protocol: [satellite][OBC][command][GS])
+ID_satelite = b'\x13'  # Satellite identifier (example: 0x13)
+OBC = b'\xAA'          # On-Board Computer identifier (example: 0xAA)
+BO = b'\xB0'           # Command for uplink (take picture)
+GS = b'\x01'           # Ground Station identifier (example: 0x01)
+take_picture = ID_satelite + OBC + BO + GS  # 4-byte command to trigger image capture
+
 # Suppress Flask's default logging for cleaner output
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
@@ -55,9 +62,9 @@ def capture():
     """
     if ser:
         try:
-            reading_paused = True  # Pause sensor thread (local variable, not used)
+            sensors.reading_paused = True  # Local variable (not used for actual pause)
             time.sleep(0.5)  # Wait for pause to take effect
-            ser.write(b'c')  # Send capture command to ESP32
+            ser.write(take_picture)  # Send 4-byte capture command to ESP32
             filename = receive_photo(ser)  # Receive and save image
             sensors.reading_paused = False  # Resume sensor thread
             if filename:

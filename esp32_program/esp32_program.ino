@@ -2,6 +2,13 @@
 #include "sensors.h"
 #include <Wire.h>
 
+uint8_t ID_satelite = 0x13 ; // Unique identifier for the satellite (XBee) (in this case 13)
+uint8_t OBC = 0xAA; // On-Board Computer identifier (can be any byte, here using 0xAA)
+uint8_t BO = 0xB0 ;// Consign for takink a picture
+uint8_t GS = 0x01 ; // Ground Station identifier (can be any byte, here using 0x01)
+
+uint8_t TAKE_PICT[] = { ID_satelite, OBC, BO, GS };
+
 // Timing for periodic sensor transmission
 unsigned long lastSensorTime = 0;
 const unsigned long interval = 10000; // 10 sec
@@ -21,9 +28,10 @@ void setup() {
 void loop() {
   // --- Handle image capture command from XBee ---
   if (XBeeSerial.available()) {
-    char cmd = XBeeSerial.read();
-    if (cmd == 'c') {
-      take_and_send_picture(); // Capture and send image if 'c' command received
+    uint8_t buffer[4];
+    XBeeSerial.readBytes(buffer, 4);
+    if (compareArrays(buffer, TAKE_PICT, 4)) {
+      take_and_send_picture();
     }
   }
 
@@ -34,4 +42,11 @@ void loop() {
   }
 
   delay(100);  // Small pause to avoid busy loop
+}
+
+bool compareArrays(uint8_t *a, uint8_t *b, int length) {
+  for (int i = 0; i < length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
 }

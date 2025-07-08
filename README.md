@@ -106,6 +106,14 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 ## 🐍 Python/Flask App (PC Side)
 
 - **app.py**: Flask web server, handles serial connection, image capture, and sensor data API.
+     - The command sent to trigger a picture is now a 4-byte sequence:  
+      `ID_satelite + OBC + BO + GS`  
+      - `ID_satelite = 0x13` (satellite identifier)
+      - `OBC = 0xAA` (On-Board Computer)
+      - `BO = 0xB0` (command to uplink)
+      - `GS = 0x01` (Ground Station)
+    - This replaces the previous single-character `'c'` command for image capture.
+    - Update your ESP32 firmware accordingly if you use custom command parsing.
 - **sensors.py**: Background thread to parse and update latest sensor values.
 - **photo.py**: Receives and saves images from ESP32.
 
@@ -114,7 +122,7 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 1. **Connect** to serial port (XBee) via web interface.
 2. **Sensor data** is received and parsed in background.
 3. **On "Capture" button:**  
-   - Sends `'c'` to ESP32.
+   - Sends the 4-byte command (`0x13 0xAA 0xB0 0x01`) to ESP32.
    - Receives and saves JPEG image.
    - Displays image in browser.
 4. **Sensor values** are updated live in the interface.
@@ -144,6 +152,9 @@ pip install flask pyserial
 
 ## ⚠️ Important Notes
 
+- **Image capture command has changed:**  
+  The Flask app now sends a 4-byte command instead of a single character.  
+  Update your ESP32 firmware accordingly if you use custom command parsing.
 - **Baud rates** and **serial port names** must match between ESP32 and PC.
 - **Hardware connections** must correspond to pin definitions in the code.
 - **Frame format** ensures data integrity for both images and sensor data.
