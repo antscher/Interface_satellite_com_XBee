@@ -1,6 +1,6 @@
 # ESP32 OV2640 Camera Image Transfer via XBee and Python
 
-This project enables you to capture JPEG images and sensor data from an ESP32 (with OV2640 camera and sensors) and transfer them to a PC via XBee wireless modules. A Python/Flask app provides a simple web interface for triggering captures and viewing sensor data.
+This project enables you to capture JPEG images and sensor data from an ESP32 (with OV2640 camera and sensors) and transfer them to a PC via XBee wireless modules. A Python/Flask app provides a simple web interface for triggering captures, sending custom uplink commands, and viewing sensor data.
 
 ---
 
@@ -101,19 +101,30 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
         - ID 4: Accelerometer (x, y, z)
     - **Footer:** 4 bytes (0x1E 0x2D 0x3C 0x4B)
 
+### Uplink Command Protocol (PC → ESP32)
+
+- You can now send any 4-byte uplink command to the ESP32 via the web interface.
+- The default "Take Picture" command is:  
+  `0x13 0xAA 0xB0 0x01`  
+  - `0x13`: Satellite identifier
+  - `0xAA`: On-Board Computer
+  - `0xB0`: Command for uplink (take picture)
+  - `0x01`: Ground Station
+- You can enter a custom 4-byte command in the uplink field and send it to the ESP32.
+
 ---
 
 ## 🐍 Python/Flask App (PC Side)
 
-- **app.py**: Flask web server, handles serial connection, image capture, and sensor data API.
-     - The command sent to trigger a picture is now a 4-byte sequence:  
+- **app.py**: Flask web server, handles serial connection, image capture, uplink commands, and sensor data API.
+    - The command sent to trigger a picture is a 4-byte sequence:  
       `ID_satelite + OBC + BO + GS`  
       - `ID_satelite = 0x13` (satellite identifier)
       - `OBC = 0xAA` (On-Board Computer)
       - `BO = 0xB0` (command to uplink)
       - `GS = 0x01` (Ground Station)
-    - This replaces the previous single-character `'c'` command for image capture.
-    - Update your ESP32 firmware accordingly if you use custom command parsing.
+    - You can now send any custom 4-byte uplink command via the web interface.
+    - The interface now includes an "Unlink" button to disconnect from the serial port.
 - **sensors.py**: Background thread to parse and update latest sensor values.
 - **photo.py**: Receives and saves images from ESP32.
 
@@ -125,7 +136,11 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
    - Sends the 4-byte command (`0x13 0xAA 0xB0 0x01`) to ESP32.
    - Receives and saves JPEG image.
    - Displays image in browser.
-4. **Sensor values** are updated live in the interface.
+4. **On "Uplink" button:**  
+   - Sends the custom 4-byte command entered in the uplink field to ESP32.
+5. **On "Unlink" button:**  
+   - Disconnects from the serial port and disables capture/uplink.
+6. **Sensor values** are updated live in the interface.
 
 ---
 
@@ -146,14 +161,15 @@ pip install flask pyserial
     ```
 2. **Open browser:** Go to `http://localhost:5000`
 3. **Connect** to your XBee serial port.
-4. **Capture images** and view sensor data live.
+4. **Capture images**, **send uplink commands**, and **view sensor data live**.
+5. **Unlink** to disconnect from the serial port.
 
 ---
 
 ## ⚠️ Important Notes
 
-- **Image capture command has changed:**  
-  The Flask app now sends a 4-byte command instead of a single character.  
+- **Image capture and uplink commands:**  
+  The Flask app now supports sending any 4-byte command to the ESP32.  
   Update your ESP32 firmware accordingly if you use custom command parsing.
 - **Baud rates** and **serial port names** must match between ESP32 and PC.
 - **Hardware connections** must correspond to pin definitions in the code.

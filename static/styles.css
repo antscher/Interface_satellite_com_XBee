@@ -149,3 +149,30 @@ hr {
     font-size: 16px;
     color: #333;
 }
+
+.uplink-form {
+    margin-top: 15px;
+    margin-bottom: 25px; /* ✅ espace ajouté en dessous */
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+/* Uplink input styling */
+#uplink-command {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 310px; /* légèrement plus large que le champ port */
+    color: #333;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;  /* ✅ couleur uniforme */
+    color: #333;
+}

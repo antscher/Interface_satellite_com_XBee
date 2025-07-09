@@ -16,9 +16,9 @@ BO = b'\xB0'           # Command for uplink (take picture)
 GS = b'\x01'           # Ground Station identifier (example: 0x01)
 take_picture = ID_satelite + OBC + BO + GS  # 4-byte command to trigger image capture
 
-# Suppress Flask's default logging for cleaner output
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+# Uncomment to suppress Flask's default logging for cleaner output
+# log = logging.getLogger('werkzeug')
+# log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 ser = None  # Global serial object for XBee communication
@@ -54,6 +54,39 @@ def connect():
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
 
+@app.route("/uplink", methods=["POST"])
+def uplink():
+    """
+    Send a custom 4-byte uplink command to the ESP32.
+    The command should be a string like "0x13 0xAA 0xB0 0x02".
+    """
+    if not ser:
+        return jsonify(success=False, error="Port série non connecté")
+
+    try:
+        data = request.get_json()
+        cmd_str = data.get("command", "")
+        if not cmd_str:
+            return jsonify(success=False, error="Commande vide")
+
+        # Convert string like "0x13 0xAA 0xB0 0x02" to bytes
+        parts = cmd_str.strip().split()
+        bytes_cmd = bytes(int(part, 16) for part in parts)
+
+        # Pause sensor reading thread
+        sensors.reading_paused = True
+        time.sleep(0.5)
+
+        ser.write(bytes_cmd)
+
+        time.sleep(0.5)
+        sensors.reading_paused = False
+
+        return jsonify(success=True)
+
+    except Exception as e:
+        return jsonify(success=False, error=str(e))
+
 @app.route("/capture")
 def capture():
     """
@@ -62,7 +95,7 @@ def capture():
     """
     if ser:
         try:
-            sensors.reading_paused = True  # Local variable (not used for actual pause)
+            sensors.reading_paused = True  # Pause sensor thread
             time.sleep(0.5)  # Wait for pause to take effect
             ser.write(take_picture)  # Send 4-byte capture command to ESP32
             filename = receive_photo(ser)  # Receive and save image
@@ -89,7 +122,6 @@ def sensor_data():
     """
     Return the latest sensor values as JSON.
     """
-    # print("Sending latest sensors:", sensors.latest_sensors)
     return jsonify(sensors.latest_sensors)
 
 @app.route("/disconnect", methods=["POST"])

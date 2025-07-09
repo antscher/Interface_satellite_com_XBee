@@ -96,3 +96,29 @@ setInterval(updateSensorData, 1000);
 
 // Optionnel : appel au chargement
 updateSensorData();
+
+
+document.getElementById("uplink-command").addEventListener("input", function () {
+  const value = this.value.trim();
+  document.getElementById("uplink-button").disabled = value.length === 0;
+});
+
+document.getElementById("uplink-button").addEventListener("click", function () {
+  const input = document.getElementById("uplink-command").value.trim();
+
+  fetch("/uplink", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ command: input })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert("✅ Commande envoyée avec succès !");
+    } else {
+      alert("❌ Erreur : " + data.error);
+    }
+  });
+});

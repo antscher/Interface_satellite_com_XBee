@@ -11,7 +11,7 @@ uint8_t TAKE_PICT[] = { ID_satelite, OBC, BO, GS };
 
 // Timing for periodic sensor transmission
 unsigned long lastSensorTime = 0;
-const unsigned long interval = 10000; // 10 sec
+const unsigned long interval = 15000; // 15 sec
 
 void setup() {
   Serial.begin(115200);                // Debug serial
@@ -32,6 +32,16 @@ void loop() {
     XBeeSerial.readBytes(buffer, 4);
     if (compareArrays(buffer, TAKE_PICT, 4)) {
       take_and_send_picture();
+    }
+    else {
+       Serial.print("Commande inconnue : ");
+        for (int i = 0; i < 4; i++) {
+          Serial.print("0x");
+          if (buffer[i] < 0x10) Serial.print("0");
+          Serial.print(buffer[i], HEX);
+          Serial.print(" ");
+        }
+        Serial.println();
     }
   }
 
