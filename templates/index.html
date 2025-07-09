@@ -37,19 +37,31 @@
     <div class="status-wrapper">
       <!-- Panneau gauche -->
       <div class="status-panel left-panel">
-        <h2>ISU groundstation</h2>
+        <h2>ISU Groundstation</h2>
         <div class="status-section">
           <p><strong>Latitude :</strong> <span id="lat">48.5233 N</span></p>
           <p><strong>Longitude :</strong> <span id="long">7.7369 E</span></p>
           <p><strong>Altitude :</strong> <span id="alt">143 m</span></p>
         </div>
-
+        <div style="margin-top: 20px;">
+        <!--  link for N2YO ISS tracker:https://www.n2yo.com/widgets/ -->
+        <script>
+          var norad_n2yo = '25544';      // ISS
+          var size_n2yo = 'small';       // small = ~400px
+          var allpasses_n2yo = '1';      // show only next pass
+          var map_n2yo = '2';            // map type
+        </script>
+        <script type="text/javascript" src="https://www.n2yo.com/js/widget-tracker.js"></script>
+        </div>
       </div>
 
       <!-- Panneau droit + logo -->
       <div class="right-column">
+        <div class="logo-container">
+          <img src="{{ url_for('static', filename='isu_logo.png') }}" alt="ISU Logo">
+        </div>
         <div class="status-panel right-panel">
-          <h2>Satellite status</h2>
+          <h2>Satellite Status</h2>
           <div class="status-section">
             <p><strong>Temperature :</strong> <span id="temp-value">-- °C</span></p>
             <p><strong>Humidity :</strong> <span id="humidity-value">-- %</span></p>
@@ -69,9 +81,6 @@
           </div>
         </div>
 
-        <div class="logo-container">
-          <img src="{{ url_for('static', filename='isu_logo.png') }}" alt="ISU Logo">
-        </div>
       </div>
     </div>
   </div>

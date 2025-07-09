@@ -121,12 +121,13 @@ hr {
 .logo-container {
     margin-top: 10px;
     display: flex;             
-    justify-content: center;    
+    justify-content: center;  
+    margin-bottom: 30px;  
 }
 
 /* Logo image styling */
 .logo-container img {
-    max-width: 120px;
+    max-width: 210px;
     height: auto;
     opacity: 0.9;
 }
@@ -140,7 +141,7 @@ hr {
 }
 
 .status-panel {
-    width: 300px;
+    width: 440px;
     box-sizing: border-box; /* ✅ très important pour respecter width exacte */
     background-color: #ffffff;
     padding: 16px 20px;
