@@ -1,6 +1,6 @@
 # ESP32 OV2640 Camera Image Transfer via XBee and Python
 
-This project enables you to capture JPEG images and sensor data from an ESP32 (with OV2640 camera and sensors) and transfer them to a PC via XBee wireless modules. A Python/Flask app provides a simple web interface for triggering captures, sending custom uplink commands, and viewing sensor data.
+This project enables you to capture JPEG images and sensor data from an ESP32 (with OV2640 camera and sensors) and transfer them to a PC via XBee wireless modules. A Python/Flask app provides a simple web interface for triggering captures, sending custom uplink commands, adjusting the sensor refresh rate, and viewing sensor data.
 
 ---
 
@@ -116,7 +116,7 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 
 ## 🐍 Python/Flask App (PC Side)
 
-- **app.py**: Flask web server, handles serial connection, image capture, uplink commands, and sensor data API.
+- **app.py**: Flask web server, handles serial connection, image capture, uplink commands, refresh rate commands, and sensor data API.
     - The command sent to trigger a picture is a 4-byte sequence:  
       `ID_satelite + OBC + BO + GS`  
       - `ID_satelite = 0x13` (satellite identifier)
@@ -125,6 +125,7 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
       - `GS = 0x01` (Ground Station)
     - You can now send any custom 4-byte uplink command via the web interface.
     - The interface now includes an "Unlink" button to disconnect from the serial port.
+    - **Refresh rate buttons** are available in the "Satellite Status" panel to quickly set the periodic sensor data transmission interval (15s, 30s, 45s, 60s, or Off). These buttons send the corresponding 4-byte command to the ESP32.
 - **sensors.py**: Background thread to parse and update latest sensor values.
 - **photo.py**: Receives and saves images from ESP32.
 
@@ -140,7 +141,15 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
    - Sends the custom 4-byte command entered in the uplink field to ESP32.
 5. **On "Unlink" button:**  
    - Disconnects from the serial port and disables capture/uplink.
-6. **Sensor values** are updated live in the interface.
+6. **On "Refresh rate" buttons:**  
+   - Sends a 4-byte command to the ESP32 to set the periodic sensor data transmission interval:
+     - **15s:** `0x13 0xAA 0x15 0x01`
+     - **30s:** `0x13 0xAA 0x30 0x01`
+     - **45s:** `0x13 0xAA 0x45 0x01`
+     - **60s:** `0x13 0xAA 0x60 0x01`
+     - **Off:** `0x13 0xAA 0x00 0x01` (disables periodic transmission)
+   - These buttons are enabled only when connected.
+7. **Sensor values** are updated live in the interface.
 
 ---
 
@@ -161,7 +170,7 @@ pip install flask pyserial
     ```
 2. **Open browser:** Go to `http://localhost:5000`
 3. **Connect** to your XBee serial port.
-4. **Capture images**, **send uplink commands**, and **view sensor data live**.
+4. **Capture images**, **send uplink commands**, **adjust refresh rate**, and **view sensor data live**.
 5. **Unlink** to disconnect from the serial port.
 
 ---
@@ -170,6 +179,7 @@ pip install flask pyserial
 
 - **Image capture and uplink commands:**  
   The Flask app now supports sending any 4-byte command to the ESP32.  
+  The refresh rate buttons send predefined commands for interval control.
   Update your ESP32 firmware accordingly if you use custom command parsing.
 - **Baud rates** and **serial port names** must match between ESP32 and PC.
 - **Hardware connections** must correspond to pin definitions in the code.

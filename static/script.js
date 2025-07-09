@@ -3,6 +3,7 @@ const captureButton = document.getElementById('capture-button');
 const abortButton = document.getElementById('abort-button');
 const photo = document.getElementById('photo');
 const unlinkButton = document.getElementById('unlink-button');
+const refreshBtns = document.querySelectorAll('.refresh-btn');
 
 connectForm.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -20,6 +21,8 @@ connectForm.addEventListener('submit', function (e) {
         captureButton.disabled = false;
         unlinkButton.disabled = false;
         document.getElementById('port').disabled = true;
+        // Enable refresh buttons
+        refreshBtns.forEach(btn => btn.disabled = false);
       }
     });
 });
@@ -69,6 +72,8 @@ unlinkButton.addEventListener('click', function () {
         abortButton.disabled = true;
         document.getElementById('port').disabled = false;
         photo.style.display = 'none';
+        // Disable refresh buttons
+        refreshBtns.forEach(btn => btn.disabled = true);
       }
     });
 });
@@ -120,5 +125,36 @@ document.getElementById("uplink-button").addEventListener("click", function () {
     } else {
       alert("❌ Erreur : " + data.error);
     }
+  });
+});
+
+// Define command mapping as in app.py
+const CMD_MAP = {
+  "TAKE_PICTURE": "0x13 0xAA 0xB0 0x01",
+  "REFRESH_15":   "0x13 0xAA 0x15 0x01",
+  "REFRESH_30":   "0x13 0xAA 0x30 0x01",
+  "REFRESH_45":   "0x13 0xAA 0x45 0x01",
+  "REFRESH_60":   "0x13 0xAA 0x60 0x01",
+  "NO_REFRESH":   "0x13 0xAA 0x00 0x01"
+};
+
+// Add event listeners for refresh rate buttons
+refreshBtns.forEach(btn => {
+  btn.addEventListener('click', function () {
+    let cmdKey = btn.getAttribute('data-cmd');
+    let cmd = CMD_MAP[cmdKey] || cmdKey;
+    fetch('/uplink', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ command: cmd })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Refresh rate command sent!');
+        } else {
+          alert(data.error || 'Failed to send refresh command');
+        }
+      });
   });
 });

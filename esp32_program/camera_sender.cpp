@@ -81,7 +81,7 @@ void take_and_send_picture() {
 
   if (!fb) {
     Serial.println("❌ Capture failed");
-    XBeeSerial.println("❌ Capture failed");
+
     return;
   }
 

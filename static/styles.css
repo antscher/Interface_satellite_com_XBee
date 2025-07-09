@@ -122,12 +122,12 @@ hr {
     margin-top: 10px;
     display: flex;             
     justify-content: center;  
-    margin-bottom: 30px;  
+    margin-bottom: 10px;  
 }
 
 /* Logo image styling */
 .logo-container img {
-    max-width: 210px;
+    max-width: 180px;
     height: auto;
     opacity: 0.9;
 }
@@ -149,6 +149,7 @@ hr {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: 16px;
     color: #333;
+    
 }
 
 .uplink-form {
@@ -176,4 +177,22 @@ input[type="text"] {
     border: 1px solid #ccc;
     background-color: #ffffff;  /* ✅ couleur uniforme */
     color: #333;
+}
+
+/* Refresh buttons styling */
+.refresh-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.refresh-btn {
+    padding: 6px 14px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }

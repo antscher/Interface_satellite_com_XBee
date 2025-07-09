@@ -43,7 +43,7 @@
           <p><strong>Longitude :</strong> <span id="long">7.7369 E</span></p>
           <p><strong>Altitude :</strong> <span id="alt">143 m</span></p>
         </div>
-        <div style="margin-top: 20px;">
+        <div style="margin-bottom: 50px;">
         <!--  link for N2YO ISS tracker:https://www.n2yo.com/widgets/ -->
         <script>
           var norad_n2yo = '25544';      // ISS
@@ -52,7 +52,7 @@
           var map_n2yo = '2';            // map type
         </script>
         <script type="text/javascript" src="https://www.n2yo.com/js/widget-tracker.js"></script>
-        </div>
+        </div >
       </div>
 
       <!-- Panneau droit + logo -->
@@ -78,6 +78,18 @@
             <p><strong>Gyro x :</strong> <span id="gyro-x">--</span></p>
             <p><strong>Gyro y :</strong> <span id="gyro-y">--</span></p>
             <p><strong>Gyro z :</strong> <span id="gyro-z">--</span></p>
+          </div>
+          <hr>
+          <!-- Refresh rate buttons -->
+          <div class="status-section" style="margin-top:18px;">
+            <label><strong>Refresh rate:</strong></label>
+            <div class="refresh-buttons">
+              <button type="button" class="refresh-btn" data-cmd="REFRESH_15" disabled>15s</button>
+              <button type="button" class="refresh-btn" data-cmd="REFRESH_30" disabled>30s</button>
+              <button type="button" class="refresh-btn" data-cmd="REFRESH_45" disabled>45s</button>
+              <button type="button" class="refresh-btn" data-cmd="REFRESH_60" disabled>60s</button>
+              <button type="button" class="refresh-btn" data-cmd="NO_REFRESH" disabled>Off</button>
+            </div>
           </div>
         </div>
 
