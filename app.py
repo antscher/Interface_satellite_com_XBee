@@ -58,7 +58,7 @@ def connect():
 def uplink():
     """
     Send a custom 4-byte uplink command to the ESP32.
-    The command should be a string like "0x13 0xAA 0xB0 0x02".
+    The command should be a string like "0x13 0xAA 0xB0 0x01".
     """
     if not ser:
         return jsonify(success=False, error="Port série non connecté")
@@ -69,7 +69,7 @@ def uplink():
         if not cmd_str:
             return jsonify(success=False, error="Commande vide")
 
-        # Convert string like "0x13 0xAA 0xB0 0x02" to bytes
+        # Convert string like "0x13 0xAA 0xB0 0x01" to bytes
         parts = cmd_str.strip().split()
         bytes_cmd = bytes(int(part, 16) for part in parts)
 
