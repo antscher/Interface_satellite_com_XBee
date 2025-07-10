@@ -35,7 +35,7 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 
 Every sensors are connected in I2C to pins 13 and 15 (SDA,SCL)
 
-![Interface Example](templates/schema_montage.jpeg)
+![Interface Example](templates/schema_montage.jpg)
 ---
 
 ## 🔧 XBee Configuration (with XCTU)
