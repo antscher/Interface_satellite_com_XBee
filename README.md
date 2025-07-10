@@ -33,6 +33,9 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 - **XBee** module connected to ESP32 UART2 (GPIO32 RX, GPIO33 TX)
 - **PC** with XBee USB adapter
 
+Every sensors are connected in I2C to pins 13 and 15 (SDA,SCL)
+
+![Interface Example](templates/schema_montage.jpeg)
 ---
 
 ## 🔧 XBee Configuration (with XCTU)

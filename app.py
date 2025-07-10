@@ -59,6 +59,7 @@ def uplink():
     """
     Send a custom 4-byte uplink command to the ESP32.
     The command should be a string like "0x13 0xAA 0xB0 0x01".
+    Used for refresh rate and other custom commands.
     """
     if not ser:
         return jsonify(success=False, error="Port série non connecté")
@@ -73,11 +74,11 @@ def uplink():
         parts = cmd_str.strip().split()
         bytes_cmd = bytes(int(part, 16) for part in parts)
 
-        # Pause sensor reading thread
+        # Pause sensor reading thread to avoid collision
         sensors.reading_paused = True
         time.sleep(0.5)
 
-        ser.write(bytes_cmd)
+        ser.write(bytes_cmd)  # Send the command
 
         time.sleep(0.5)
         sensors.reading_paused = False
