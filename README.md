@@ -221,6 +221,10 @@ pip install flask pyserial
 ![Interface Example](templates/interface_example.png)
 ![Interface Example](templates/interface_example_running.png)
 
+## Author
+
+Antoine Scherpereel (https://github.com/antscher)
+
 ## 📚 References
 
 - [XBee Arduino Tutorial](https://circuitdigest.com/microcontroller-projects/arduino-xbee-module-interfacing-tutorial)
