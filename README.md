@@ -33,7 +33,8 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 - **XBee** module connected to ESP32 UART2 (GPIO32 RX, GPIO33 TX)
 - **PC** with XBee USB adapter
 
-Every sensors are connected in I2C to pins 13 and 15 (SDA,SCL)
+Every sensors are connected in I2C to pins 13 and 15 of the esp32 (SDA,SCL)
+You need also to connect 3.3V and GND
 
 ![Interface Example](templates/schema_montage.jpg)
 ---
@@ -43,14 +44,14 @@ Every sensors are connected in I2C to pins 13 and 15 (SDA,SCL)
 1. **Install XCTU** from Digi International.
 2. **Connect** your PC's XBee module via USB-to-serial adapter and open XCTU.
 3. **Add device**: Select the COM port and detect your XBee.
-4. **Configure both XBees**:
-    - **Baud Rate:** 115200 (must match ESP32)
-    - **PAN ID:** Same for both modules (e.g., 1234)
-    - **Destination Address:** Set each XBee to the other's 64-bit address
-    - **API Mode:** Transparent (AT mode)
-5. **Write settings** to both modules.
-
-*Tip: Avoid using baud rates above 115200 unless your hardware supports it reliably.*
+(when using the groove adapter, when it is not being read in the XCTU software, change the jumper pin of the loopback. By default use upper 2 pins).
+4. Go to update, on founction set choose 802.154.TH and the newest version software. Then update
+5. **Configure both XBees**:
+    - **Serial interfacing : Interface data Rate:** 115200 (must match ESP32)
+    - **PAN ID:** Same for both modules (e.g., 2244)
+    - **Destination Address Low :** Set each XBee Dest addr low to the other Xbee 16-bit source address (e.g., for one 1234 and the other 5678)
+    - **API Enabeled:** Disabled [0]
+6. **Write settings** to both modules (Write all).
 
 ---
 
