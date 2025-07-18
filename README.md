@@ -30,7 +30,7 @@ This project enables you to capture JPEG images and sensor data from an ESP32 (w
 - **ESP32** (Freenove Wrover) with OV2640 camera module
 - **BME280** (temperature, pressure, humidity) sensor
 - **MPU6050** (gyroscope, accelerometer) sensor
-- **XBee** module connected to ESP32 UART2 (GPIO32 RX, GPIO33 TX)
+- **XBee** module connected to ESP32 UART2 (GPIO32 to RX of XBee, GPIO33 to TX of XBee and also 5V and GND)
 - **PC** with XBee USB adapter
 
 Every sensors are connected in I2C to pins 13 and 15 of the esp32 (SDA,SCL)
@@ -58,10 +58,11 @@ You need also to connect 3.3V and GND
 ## 🖥️ Arduino IDE Setup (ESP32 Side)
 
 1. **Install Arduino IDE** (1.8+).
-2. **Select Board:** "ESP32 Wrover Module".
-3. **Connect** camera and XBee as per pin definitions in the code.
-4. **Open** the `esp32_program` folder.
-5. **Upload** the sketch to your ESP32.
+2. **Select Board:** "ESP32 Wrover Module", add librairies : esp32 by espressif in board manager if needed.
+3. **Connect** camera, sensors and XBee (remove the USB cable) as per pin definitions in the code or as explain before.
+4. Install Adafruit_MPU6050 and/or Adafruit_BME280 if needed
+5. **Open** the `esp32_program` folder.
+6. **Upload** the sketch to your ESP32.
 
 ---
 
