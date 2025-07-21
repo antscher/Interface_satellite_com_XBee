@@ -158,7 +158,7 @@ You need also to connect 3.3V and GND
 
 ---
 
-## ⚙️ Python Environment Setup
+## ⚙️ Setup for Ground Station Python Environment Setup
 
 Install dependencies:
 ```
@@ -167,16 +167,18 @@ pip install flask pyserial
 
 ---
 
-## ▶️ Usage
+## ▶️ How to use the Ground station sowtware
 
-1. **Start Flask app:**
+1. **Download** all the file exept the esp32 folder
+2.  **Go to the repository** : use cd "Your path/"
+3.  **Start Flask app:**
     ```
     python app.py
     ```
-2. **Open browser:** Go to `http://localhost:5000`
-3. **Connect** to your XBee serial port.
-4. **Capture images**, **send uplink commands**, **adjust refresh rate**, and **view sensor data live**.
-5. **Unlink** to disconnect from the serial port.
+4. **Open browser:** Go to `http://localhost:5000` or the given URL by the cmd monitor
+5. **Connect** to your XBee serial port.
+6. **Capture images**, **send uplink commands**, **adjust refresh rate**, and **view sensor data live**.
+7. **Unlink** to disconnect from the serial port.
 
 ---
 
